@@ -52,8 +52,8 @@ npm run dev
 
 ## Default Accounts
 The seed script creates the following default accounts:
-- **Admin**: admin@traveloop.com / password123
-- **User**: user@traveloop.com / password123
+- **Admin**: `admin@traveloop.com` / `Admin@1234`
+- **Demo User**: `demo@traveloop.com` / `User@1234`
 
 ## Tech Stack
 - **Backend**: Node.js, Express, TypeScript, Prisma, PostgreSQL, Zod

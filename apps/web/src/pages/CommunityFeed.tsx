@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiClient } from '../lib/api-client';
 import { Globe, Eye, Copy, ArrowRight, MapPin, Calendar } from 'lucide-react';
+import BlurFade from '../components/ui/blur-fade';
 
 interface CommunityPost {
   id: string;
@@ -87,71 +88,71 @@ export default function CommunityFeed() {
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {posts.map((post, index) => (
-                <Link
-                  to={`/community/${post.trip.publicSlug}`}
-                  key={post.id}
-                  className="group bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col animate-fade-in-up"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  {/* Cover */}
-                  <div className="h-48 bg-gradient-to-br from-slate-200 to-slate-100 relative overflow-hidden">
-                    {post.trip.coverPhoto ? (
-                      <img
-                        src={post.trip.coverPhoto}
-                        alt={post.trip.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                    ) : (
-                      <img
-                        src={`https://source.unsplash.com/random/400x300/?travel,${post.trip.title.split(' ')[0]}`}
-                        alt={post.trip.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
-                    <div className="absolute bottom-4 left-4 right-4 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
-                      <h3 className="text-white font-bold text-xl leading-tight line-clamp-2 drop-shadow-md">
-                        {post.trip.title}
-                      </h3>
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-5 flex-1 flex flex-col">
-                    {/* Author */}
-                    <div className="flex items-center space-x-3 mb-4">
-                      <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-xs font-bold text-primary overflow-hidden shadow-sm">
-                        {post.user.profilePhoto ? (
-                          <img src={post.user.profilePhoto} alt="" className="w-full h-full object-cover" />
-                        ) : (
-                          `${post.user.firstName[0]}${post.user.lastName[0]}`
-                        )}
+                <BlurFade key={post.id} delay={0.1 + index * 0.05} inView>
+                  <Link
+                    to={`/community/${post.trip.publicSlug}`}
+                    className="group bg-white/80 backdrop-blur-xl rounded-3xl border border-slate-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col h-full"
+                  >
+                    {/* Cover */}
+                    <div className="h-52 bg-gradient-to-br from-slate-200 to-slate-100 relative overflow-hidden">
+                      {post.trip.coverPhoto ? (
+                        <img
+                          src={post.trip.coverPhoto}
+                          alt={post.trip.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                      ) : (
+                        <img
+                          src={`https://source.unsplash.com/random/400x300/?travel,${post.trip.title.split(' ')[0]}`}
+                          alt={post.trip.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                      <div className="absolute bottom-5 left-5 right-5 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 className="text-white font-extrabold text-2xl tracking-tight leading-tight drop-shadow-md">
+                          {post.trip.title}
+                        </h3>
                       </div>
-                      <span className="text-sm font-semibold text-slate-700">{post.user.firstName} {post.user.lastName}</span>
                     </div>
 
-                    {/* Dates */}
-                    <div className="flex items-center text-xs text-slate-500 font-medium mb-3 bg-slate-50 w-fit px-2 py-1 rounded-md">
-                      <Calendar className="w-3.5 h-3.5 mr-1.5 text-primary/70" />
-                      {new Date(post.trip.startDate).toLocaleDateString()} — {new Date(post.trip.endDate).toLocaleDateString()}
-                    </div>
-
-                    {post.caption && (
-                      <p className="text-sm text-slate-600 line-clamp-2 mb-4 leading-relaxed">{post.caption}</p>
-                    )}
-
-                    {/* Stats */}
-                    <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
-                      <div className="flex items-center space-x-4 text-xs font-medium text-slate-400">
-                        <span className="flex items-center hover:text-primary transition-colors"><Eye className="w-3.5 h-3.5 mr-1.5" />{post.viewCount}</span>
-                        <span className="flex items-center hover:text-primary transition-colors"><Copy className="w-3.5 h-3.5 mr-1.5" />{post.copyCount}</span>
+                    {/* Content */}
+                    <div className="p-6 flex-1 flex flex-col">
+                      {/* Author */}
+                      <div className="flex items-center space-x-3 mb-4">
+                        <div className="w-10 h-10 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center text-sm font-bold text-blue-600 overflow-hidden shadow-sm">
+                          {post.user.profilePhoto ? (
+                            <img src={post.user.profilePhoto} alt="" className="w-full h-full object-cover" />
+                          ) : (
+                            `${post.user.firstName[0]}${post.user.lastName[0]}`
+                          )}
+                        </div>
+                        <span className="text-sm font-bold text-slate-800">{post.user.firstName} {post.user.lastName}</span>
                       </div>
-                      <span className="text-xs font-bold text-primary group-hover:text-primary/80 flex items-center uppercase tracking-wider opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                        View <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                      </span>
+
+                      {/* Dates */}
+                      <div className="flex items-center text-xs text-slate-600 font-medium mb-4 bg-slate-50 border border-slate-100 w-fit px-2.5 py-1.5 rounded-lg">
+                        <Calendar className="w-3.5 h-3.5 mr-2 text-blue-500" />
+                        {new Date(post.trip.startDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })} — {new Date(post.trip.endDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                      </div>
+
+                      {post.caption && (
+                        <p className="text-sm text-slate-500 line-clamp-2 mb-4 leading-relaxed font-medium">{post.caption}</p>
+                      )}
+
+                      {/* Stats */}
+                      <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+                        <div className="flex items-center space-x-5 text-sm font-semibold text-slate-400">
+                          <span className="flex items-center hover:text-blue-500 transition-colors"><Eye className="w-4 h-4 mr-1.5" />{post.viewCount}</span>
+                          <span className="flex items-center hover:text-blue-500 transition-colors"><Copy className="w-4 h-4 mr-1.5" />{post.copyCount}</span>
+                        </div>
+                        <span className="text-xs font-bold text-blue-600 flex items-center uppercase tracking-widest opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                          View <ArrowRight className="w-4 h-4 ml-1" />
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </BlurFade>
               ))}
             </div>
 

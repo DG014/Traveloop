@@ -5,6 +5,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useAuth } from '../lib/auth-context';
 import { apiClient } from '../lib/api-client';
+import AnimatedGridPattern from '../components/ui/animated-grid-pattern';
+import ShimmerButton from '../components/ui/shimmer-button';
+import { cn } from '../lib/utils';
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Enter a valid email address' }),
@@ -38,10 +41,20 @@ export default function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-slate-50">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-md">
+    <div className="relative flex items-center justify-center min-h-screen bg-slate-50 overflow-hidden">
+      <AnimatedGridPattern
+        numSquares={40}
+        maxOpacity={0.1}
+        duration={3}
+        repeatDelay={1}
+        className={cn(
+          "[mask-image:radial-gradient(800px_circle_at_center,white,transparent)]",
+          "inset-x-0 inset-y-[-30%] h-[160%] skew-y-12"
+        )}
+      />
+      <div className="relative z-10 w-full max-w-md p-8 space-y-8 bg-white/80 backdrop-blur-xl rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200/60">
         <div className="text-center">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Welcome Back</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">Welcome Back</h1>
           <p className="text-sm text-slate-500 mt-2">Log in to your Traveloop account</p>
         </div>
 
@@ -58,7 +71,7 @@ export default function Login() {
               id="email"
               type="email"
               {...register('email')}
-              className="flex h-10 w-full rounded-md border border-slate-300 bg-transparent px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent"
+              className="flex h-11 w-full rounded-xl border border-slate-300 bg-white/50 px-4 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
               placeholder="you@example.com"
             />
             {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
@@ -73,18 +86,20 @@ export default function Login() {
               id="password"
               type="password"
               {...register('password')}
-              className="flex h-10 w-full rounded-md border border-slate-300 bg-transparent px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent"
+              className="flex h-11 w-full rounded-xl border border-slate-300 bg-white/50 px-4 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
             />
             {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
           </div>
 
-          <button
+          <ShimmerButton
             type="submit"
             disabled={isSubmitting}
-            className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white hover:bg-blue-700 h-10 px-4 py-2 w-full"
+            className="w-full mt-6"
           >
-            {isSubmitting ? 'Logging in...' : 'Log in'}
-          </button>
+            <span className="text-center text-sm font-medium text-white tracking-wide">
+              {isSubmitting ? 'Logging in...' : 'Log in'}
+            </span>
+          </ShimmerButton>
         </form>
 
         <div className="text-center text-sm">

@@ -3,7 +3,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { apiClient } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
 import { MapPin, Calendar, Clock, DollarSign, Copy, ArrowLeft, Eye, CheckCircle } from 'lucide-react';
-
+import BlurFade from '../components/ui/blur-fade';
+import ShimmerButton from '../components/ui/shimmer-button';
 export default function PublicTripView() {
   const { slug } = useParams<{ slug: string }>();
   const { user } = useAuth();
@@ -38,73 +39,119 @@ export default function PublicTripView() {
   if (error || !trip) return <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center"><p className="text-red-500 mb-4">{error}</p><Link to="/community" className="text-primary hover:underline">← Back to Community</Link></div>;
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 font-sans">
       {/* Hero */}
-      <div className="relative bg-primary h-48 sm:h-64">
-        {trip.coverPhoto && <img src={trip.coverPhoto} alt={trip.title} className="w-full h-full object-cover" />}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-        <div className="absolute top-4 left-4">
-          <Link to="/community" className="inline-flex items-center text-white/90 hover:text-white text-sm bg-black/30 rounded-full px-3 py-1.5 backdrop-blur-sm">
-            <ArrowLeft className="w-4 h-4 mr-1" /> Community
-          </Link>
+      <BlurFade delay={0.1} inView>
+        <div className="relative bg-slate-900 h-64 sm:h-80 lg:h-96 w-full">
+          {trip.coverPhoto && <img src={trip.coverPhoto} alt={trip.title} className="w-full h-full object-cover opacity-80" />}
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent" />
+          <div className="absolute top-6 left-6 z-10">
+            <Link to="/community" className="inline-flex items-center text-white/90 hover:text-white text-sm bg-white/10 rounded-full px-4 py-2 backdrop-blur-md border border-white/20 transition-all hover:bg-white/20">
+              <ArrowLeft className="w-4 h-4 mr-2" /> Back to Community
+            </Link>
+          </div>
+          <div className="absolute bottom-8 left-8 right-8 max-w-5xl mx-auto z-10">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight drop-shadow-lg mb-2">{trip.title}</h1>
+            {post && <p className="text-white/80 text-base font-medium flex items-center">
+              <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center mr-2 text-xs border border-white/30">
+                {post.user.profilePhoto ? <img src={post.user.profilePhoto} className="rounded-full w-full h-full" alt="" /> : post.user.firstName[0]}
+              </span>
+              Curated by {post.user.firstName} {post.user.lastName}
+            </p>}
+          </div>
         </div>
-        <div className="absolute bottom-6 left-6 right-6">
-          <h1 className="text-2xl sm:text-3xl font-bold text-white">{trip.title}</h1>
-          {post && <p className="text-white/80 text-sm mt-1">by {post.user.firstName} {post.user.lastName}</p>}
-        </div>
-      </div>
+      </BlurFade>
 
       {/* Info bar */}
-      <div className="bg-white border-b border-border px-6 py-4">
-        <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center space-x-6 text-sm text-muted-foreground">
-            <span className="flex items-center"><Calendar className="w-4 h-4 mr-1.5" />{new Date(trip.startDate).toLocaleDateString()} — {new Date(trip.endDate).toLocaleDateString()}</span>
-            {trip.totalBudget && <span className="flex items-center"><DollarSign className="w-4 h-4 mr-1" />Budget: ${Number(trip.totalBudget).toLocaleString()}</span>}
-            {post && <><span className="flex items-center"><Eye className="w-4 h-4 mr-1" />{post.viewCount}</span><span className="flex items-center"><Copy className="w-4 h-4 mr-1" />{post.copyCount}</span></>}
+      <BlurFade delay={0.2} inView>
+        <div className="bg-white border-b border-slate-200/60 shadow-[0_4px_20px_rgb(0,0,0,0.03)] px-6 py-5 sticky top-0 z-40 backdrop-blur-xl bg-white/80">
+          <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center space-x-6 text-sm font-semibold text-slate-600">
+              <span className="flex items-center bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200"><Calendar className="w-4 h-4 mr-2 text-blue-500" />{new Date(trip.startDate).toLocaleDateString(undefined, {month: 'short', day: 'numeric'})} — {new Date(trip.endDate).toLocaleDateString(undefined, {month: 'short', day: 'numeric'})}</span>
+              {trip.totalBudget && <span className="flex items-center bg-green-50 text-green-700 px-3 py-1.5 rounded-lg border border-green-200"><DollarSign className="w-4 h-4 mr-1" />Total: ${Number(trip.totalBudget).toLocaleString()}</span>}
+              {post && <><span className="flex items-center text-slate-400"><Eye className="w-4 h-4 mr-1.5" />{post.viewCount}</span><span className="flex items-center text-slate-400"><Copy className="w-4 h-4 mr-1.5" />{post.copyCount}</span></>}
+            </div>
+            
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+              <button 
+                onClick={handleCopy} 
+                disabled={copying || copied}
+                className="relative flex items-center justify-center w-full sm:w-auto overflow-hidden rounded-xl p-[1px]"
+              >
+                <span className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 opacity-70"></span>
+                <div className={`relative flex items-center justify-center w-full px-6 py-2.5 rounded-xl bg-white transition-all ${copied ? 'bg-green-50 text-green-700 border border-green-200' : 'text-blue-600 hover:text-blue-700 font-bold'}`}>
+                  {copied ? <><CheckCircle className="w-4 h-4 mr-2" />Copied to Dashboard!</> : copying ? 'Copying...' : <><Copy className="w-4 h-4 mr-2" />Duplicate Trip</>}
+                </div>
+              </button>
+            </div>
           </div>
-          <button onClick={handleCopy} disabled={copying || copied}
-            className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all ${copied ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-primary text-white hover:bg-primary/90 shadow-sm'}`}>
-            {copied ? <><CheckCircle className="w-4 h-4 mr-2" />Copied!</> : copying ? 'Copying...' : <><Copy className="w-4 h-4 mr-2" />Copy This Trip</>}
-          </button>
         </div>
-      </div>
+      </BlurFade>
 
       {trip.description && <div className="max-w-5xl mx-auto px-6 py-6"><p className="text-slate-600">{trip.description}</p></div>}
 
       {/* Sections */}
-      <main className="max-w-5xl mx-auto px-6 pb-12">
-        <h2 className="text-xl font-bold text-slate-900 mb-6">Itinerary ({trip.sections?.length || 0} sections)</h2>
-        <div className="space-y-6">
+      <main className="max-w-5xl mx-auto px-6 py-12">
+        <BlurFade delay={0.3} inView>
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Detailed Itinerary</h2>
+            <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">{trip.sections?.length || 0} Days</span>
+          </div>
+        </BlurFade>
+
+        <div className="space-y-8 relative before:absolute before:inset-0 before:ml-8 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-200 before:to-transparent">
           {(trip.sections || []).map((section: any, idx: number) => (
-            <div key={section.id} className="bg-white rounded-xl border border-border shadow-sm overflow-hidden">
-              <div className="bg-slate-50 px-6 py-4 border-b border-border flex items-center justify-between">
-                <div>
-                  <div className="flex items-center space-x-2">
-                    <span className="w-6 h-6 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold">{idx + 1}</span>
-                    <h3 className="font-bold text-slate-900">{section.title}</h3>
-                  </div>
-                  {section.city && <p className="text-sm text-muted-foreground mt-1 flex items-center"><MapPin className="w-3 h-3 mr-1" />{section.city.name}, {section.city.country}</p>}
+            <BlurFade key={section.id} delay={0.4 + idx * 0.1} inView>
+              <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                {/* Timeline Icon */}
+                <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-50 bg-white shadow-sm shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 relative z-10 text-blue-600 font-bold text-sm">
+                  {idx + 1}
                 </div>
-                <div className="text-right text-xs text-muted-foreground">
-                  <div>{new Date(section.startDate).toLocaleDateString()} — {new Date(section.endDate).toLocaleDateString()}</div>
-                  {section.budget && <div className="font-medium text-primary mt-1">${Number(section.budget).toLocaleString()}</div>}
+                
+                {/* Card */}
+                <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white/80 backdrop-blur-xl rounded-3xl border border-slate-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all overflow-hidden p-1">
+                  <div className="bg-slate-50/50 px-6 py-5 border-b border-slate-100 rounded-t-2xl">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="font-bold text-lg text-slate-900">{section.title}</h3>
+                      <div className="text-right text-xs font-semibold text-slate-500 bg-white px-2 py-1 rounded-md border border-slate-200 shadow-sm">
+                        {new Date(section.startDate).toLocaleDateString(undefined, {month: 'short', day: 'numeric'})}
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      {section.city ? (
+                        <p className="text-sm font-medium text-slate-600 flex items-center bg-blue-50/50 text-blue-700 px-2.5 py-1 rounded-lg w-fit border border-blue-100/50">
+                          <MapPin className="w-3.5 h-3.5 mr-1.5" />{section.city.name}, {section.city.country}
+                        </p>
+                      ) : <div/>}
+                      {section.budget && <div className="font-bold text-green-600 text-sm bg-green-50 px-2 py-1 rounded-md">${Number(section.budget).toLocaleString()}</div>}
+                    </div>
+                  </div>
+
+                  <div className="p-2">
+                    {section.activities?.length > 0 ? (
+                      <ul className="space-y-1">
+                        {section.activities.map((act: any) => (
+                          <li key={act.id} className="px-4 py-3 flex items-center justify-between hover:bg-slate-50 rounded-xl transition-colors group/item">
+                            <div className="flex items-center space-x-4">
+                              {act.scheduledTime ? (
+                                <span className="text-xs font-bold text-slate-400 bg-slate-100 px-2 py-1 rounded-md min-w-[60px] text-center">{act.scheduledTime}</span>
+                              ) : (
+                                <span className="w-2 h-2 rounded-full bg-slate-200 ml-2" />
+                              )}
+                              <span className="text-sm font-semibold text-slate-800">{act.activity.name}</span>
+                              {act.activity.category && <span className="hidden sm:inline-block text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full">{act.activity.category}</span>}
+                            </div>
+                            {(act.actualCost || act.activity.avgCost) && <span className="text-sm font-medium text-slate-500">${Number(act.actualCost || act.activity.avgCost).toFixed(0)}</span>}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : <p className="px-6 py-6 text-sm font-medium text-slate-400 text-center italic bg-slate-50 rounded-xl m-2">Time for spontaneous exploration!</p>}
+                  </div>
                 </div>
               </div>
-              {section.activities?.length > 0 ? (
-                <ul className="divide-y divide-border">
-                  {section.activities.map((act: any) => (
-                    <li key={act.id} className="px-6 py-3 flex items-center justify-between hover:bg-slate-50">
-                      <div className="flex items-center space-x-3">
-                        {act.scheduledTime && <span className="text-xs font-mono text-muted-foreground flex items-center"><Clock className="w-3 h-3 mr-1" />{act.scheduledTime}</span>}
-                        <span className="text-sm font-medium text-slate-900">{act.activity.name}</span>
-                        {act.activity.category && <span className="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded">{act.activity.category}</span>}
-                      </div>
-                      {(act.actualCost || act.activity.avgCost) && <span className="text-sm text-muted-foreground">${Number(act.actualCost || act.activity.avgCost).toFixed(0)}</span>}
-                    </li>
-                  ))}
-                </ul>
-              ) : <p className="px-6 py-4 text-sm text-muted-foreground italic">No activities planned.</p>}
-            </div>
+            </BlurFade>
           ))}
         </div>
       </main>

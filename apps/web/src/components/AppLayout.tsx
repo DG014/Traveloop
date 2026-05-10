@@ -6,7 +6,8 @@ import {
   Globe,
   UserCircle,
   LogOut,
-  ShieldAlert
+  ShieldAlert,
+  Search,
 } from 'lucide-react';
 
 export function AppLayout() {
@@ -16,6 +17,7 @@ export function AppLayout() {
   const navigation = [
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
     { name: 'My Trips', href: '/trips', icon: MapPin },
+    { name: 'Explore', href: '/search', icon: Search },
     { name: 'Community', href: '/community', icon: Globe },
     { name: 'Profile', href: '/profile', icon: UserCircle },
   ];

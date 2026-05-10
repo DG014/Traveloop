@@ -15,6 +15,7 @@ import NotesView from './pages/NotesView';
 import CommunityFeed from './pages/CommunityFeed';
 import PublicTripView from './pages/PublicTripView';
 import ProfileEdit from './pages/ProfileEdit';
+import CitySearch from './pages/CitySearch';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="/trips/:id/notes" element={<NotesView />} />
           <Route path="/profile" element={<ProfileEdit />} />
           <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/search" element={<CitySearch />} />
         </Route>
       </Routes>
     </AuthProvider>

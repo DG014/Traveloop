@@ -9,7 +9,7 @@ import { apiClient } from '../lib/api-client';
 const registerSchema = z.object({
   firstName: z.string().min(1, { message: 'First name is required' }),
   lastName: z.string().min(1, { message: 'Last name is required' }),
-  email: z.string().email({ message: 'Enter a valid email address' }),
+  email: z.string().min(1, { message: 'Email is required' }).email({ message: 'Enter a valid email address' }),
   password: z.string().min(8, { message: 'Password must be at least 8 characters' })
     .regex(/[A-Z]/, { message: 'Password must contain at least one uppercase letter' })
     .regex(/[0-9]/, { message: 'Password must contain at least one number' }),
