@@ -732,6 +732,11 @@ PRD §7 Screen 12 mentions "deactivate/activate" but schema has no `is_active` c
 [Opus | 2026-05-10 11:35 | PHASE] Phase 5 COMPLETE. All 14 PRD screens built. All audit issues resolved.
 [Sonnet | 2026-05-10 11:40 | VERIFY] Independent verification pass: backend 22/22 ✅ frontend 25/25 ✅ both TS clean. All contract items confirmed on disk.
 [Sonnet | 2026-05-10 11:40 | STATUS] System ready for final demo. Both dev servers startable. DB migration+seed documented in README.
+[Opus | 2026-05-10 15:52 | AUDIT] Phase 6 pre-flight: Backend running on 3001 ✅, Frontend on 5173 ✅, Login works ✅, Profile renders ✅, Community API returns 3 posts ✅.
+[Opus | 2026-05-10 15:52 | BUGS] Found: P6-1 Invoice PDF URL wrong port, P6-2 Community missing sidebar when logged in, P6-4 No publish button in UI, P6-5 Missing search/filter/sort on Dashboard+TripListing.
+[Opus | 2026-05-10 15:52 | PHASE] Phase 6 STARTED — Integration Polish & Feature Completion.
+[Opus | 2026-05-10 15:52 | DISPATCH] Sonnet contract: .planning/contract-sonnet-phase6.md — Tasks: PDF export, admin analytics, search enhancement, view increment.
+[Opus | 2026-05-10 15:52 | DISPATCH] Gemini contract: .planning/contract-gemini-phase6.md — Tasks: PDF URL fix, publish flow, community routing, search/filter UI, admin charts, blank cards fix.
 ```
 
 ---

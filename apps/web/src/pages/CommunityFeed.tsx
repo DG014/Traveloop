@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiClient } from '../lib/api-client';
+import { useAuth } from '../lib/auth-context';
 import { Globe, Eye, Copy, ArrowRight, Calendar } from 'lucide-react';
 import { BlurFade } from '../components/ui/blur-fade';
 
@@ -27,6 +28,7 @@ interface CommunityPost {
 }
 
 export default function CommunityFeed() {
+  const { user } = useAuth();
   const [posts, setPosts] = useState<CommunityPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -65,9 +67,15 @@ export default function CommunityFeed() {
               <p className="text-sm text-muted-foreground font-medium">Discover and copy itineraries shared by travelers</p>
             </div>
           </div>
-          <Link to="/" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors bg-primary/5 hover:bg-primary/10 px-4 py-2 rounded-full flex items-center">
-            ← Dashboard
-          </Link>
+          {user ? (
+            <Link to="/" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors bg-primary/5 hover:bg-primary/10 px-4 py-2 rounded-full flex items-center">
+              ← Dashboard
+            </Link>
+          ) : (
+            <Link to="/login" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors bg-primary/5 hover:bg-primary/10 px-4 py-2 rounded-full flex items-center">
+              Log in
+            </Link>
+          )}
         </div>
       </header>
 
@@ -94,18 +102,15 @@ export default function CommunityFeed() {
                     className="group bg-white/80 backdrop-blur-xl rounded-3xl border border-slate-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col h-full"
                   >
                     {/* Cover */}
-                    <div className="h-52 bg-gradient-to-br from-slate-200 to-slate-100 relative overflow-hidden">
-                      {post.trip.coverPhoto ? (
+                    <div className="h-52 bg-gradient-to-br from-blue-400 via-indigo-500 to-purple-600 relative overflow-hidden">
+                      {post.trip.coverPhoto && (
                         <img
                           src={post.trip.coverPhoto}
                           alt={post.trip.title}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        />
-                      ) : (
-                        <img
-                          src={`https://source.unsplash.com/random/400x300/?travel,${post.trip.title.split(' ')[0]}`}
-                          alt={post.trip.title}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                          }}
                         />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />

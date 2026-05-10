@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './lib/auth-context';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { ConditionalLayout } from './components/ConditionalLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -23,10 +24,12 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        {/* Public community routes (no auth required) */}
-        <Route path="/community" element={<CommunityFeed />} />
-        <Route path="/community/:slug" element={<PublicTripView />} />
-        {/* Protected routes */}
+        {/* Community routes — sidebar shown if logged in, standalone if not */}
+        <Route element={<ConditionalLayout />}>
+          <Route path="/community" element={<CommunityFeed />} />
+          <Route path="/community/:slug" element={<PublicTripView />} />
+        </Route>
+        {/* Protected routes — requires auth, always shows sidebar */}
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/trips" element={<TripListing />} />

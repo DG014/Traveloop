@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { apiClient } from '../lib/api-client';
-import { MapPin, Calendar, DollarSign, Clock, LayoutList, CheckCircle2, Plus, Trash2 } from 'lucide-react';
+import { MapPin, Calendar, DollarSign, Clock, LayoutList, CheckCircle2, Plus, Trash2, Globe, Copy } from 'lucide-react';
 
 export default function ItineraryView() {
   const { id: tripId } = useParams<{ id: string }>();
@@ -11,6 +11,8 @@ export default function ItineraryView() {
   const [error, setError] = useState<string | null>(null);
   const [availableActivities, setAvailableActivities] = useState<any[]>([]);
   const [addingToSection, setAddingToSection] = useState<string | null>(null);
+  const [, setPublishing] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
   const [newActivityForm, setNewActivityForm] = useState({
     activityId: '',
     dayNumber: 1,
@@ -47,6 +49,8 @@ export default function ItineraryView() {
       setLoading(false);
     }
   };
+
+
 
   const updateCost = async (sectionId: string, activityId: string, newCost: number) => {
     try {
@@ -108,6 +112,42 @@ export default function ItineraryView() {
     }
   };
 
+  const showToast = (msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(null), 3000);
+  };
+
+  const handlePublish = async () => {
+    setPublishing(true);
+    try {
+      const res = await apiClient(`/trips/${tripId}/publish`, { method: 'POST' });
+      setTrip((t: any) => ({ ...t, isPublic: true, publicSlug: res.data?.publicSlug || t.publicSlug }));
+      showToast(`✅ Published! Share: ${window.location.origin}/community/${res.data?.publicSlug}`);
+    } catch (e: any) {
+      showToast('❌ Failed to publish: ' + e.message);
+    } finally {
+      setPublishing(false);
+    }
+  };
+
+  const handleUnpublish = async () => {
+    setPublishing(true);
+    try {
+      await apiClient(`/trips/${tripId}/unpublish`, { method: 'POST' });
+      setTrip((t: any) => ({ ...t, isPublic: false }));
+      showToast('Trip unpublished from community.');
+    } catch (e: any) {
+      showToast('❌ Failed to unpublish: ' + e.message);
+    } finally {
+      setPublishing(false);
+    }
+  };
+
+  const copyShareLink = () => {
+    const url = `${window.location.origin}/community/${trip?.publicSlug}`;
+    navigator.clipboard.writeText(url).then(() => showToast('🔗 Link copied to clipboard!'));
+  };
+
   if (loading) return <div className="min-h-screen bg-slate-50 flex items-center justify-center">Loading...</div>;
   if (error) return <div className="min-h-screen bg-slate-50 flex items-center justify-center text-red-500">{error}</div>;
 
@@ -117,19 +157,53 @@ export default function ItineraryView() {
 
   return (
     <div className="min-h-screen bg-slate-50 pb-20">
+      {/* Toast notification */}
+      {toast && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white text-sm px-5 py-3 rounded-xl shadow-2xl" style={{ animation: 'fadeIn 0.3s ease' }}>
+          {toast}
+        </div>
+      )}
+
       {/* Header */}
-      <div className="bg-white border-b border-border sticky top-0 z-10">
+      <div className="bg-white border-b border-slate-200 sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-6 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <Link to="/trips" className="text-sm text-primary hover:underline mb-1 inline-block">&larr; Back to Trips</Link>
+              <Link to="/trips" className="text-sm text-blue-600 hover:underline mb-1 inline-block">← Back to Trips</Link>
               <h1 className="text-2xl font-bold text-slate-900">{trip?.title}</h1>
               <div className="flex items-center text-sm text-slate-500 mt-1 space-x-4">
                 <span className="flex items-center"><Calendar className="w-4 h-4 mr-1" /> {new Date(trip?.startDate).toLocaleDateString()} - {new Date(trip?.endDate).toLocaleDateString()}</span>
                 {trip?.status === 'completed' && <span className="flex items-center text-green-600"><CheckCircle2 className="w-4 h-4 mr-1" /> Completed</span>}
               </div>
             </div>
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center gap-2 flex-wrap">
+              {/* Publish / Unpublish */}
+              {trip?.isPublic ? (
+                <>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-100 text-green-700 rounded-full text-xs font-bold">
+                    <Globe className="w-3.5 h-3.5" /> Published
+                  </span>
+                  <button 
+                    onClick={copyShareLink}
+                    className="inline-flex items-center justify-center rounded-md border border-input bg-background h-9 px-3 py-2 text-sm font-medium hover:bg-slate-50 transition-colors"
+                  >
+                    <Copy className="w-4 h-4 mr-2" /> Copy Link
+                  </button>
+                  <button 
+                    onClick={handleUnpublish}
+                    className="inline-flex items-center justify-center rounded-md border border-red-200 bg-white text-red-600 h-9 px-3 py-2 text-sm font-medium hover:bg-red-50 transition-colors"
+                  >
+                    Unpublish
+                  </button>
+                </>
+              ) : (
+                <button 
+                  onClick={handlePublish}
+                  className="inline-flex items-center justify-center rounded-md bg-primary text-primary-foreground h-9 px-4 py-2 text-sm font-medium hover:bg-primary/90 transition-colors"
+                >
+                  <Globe className="w-4 h-4 mr-2" /> Publish to Community
+                </button>
+              )}
               <Link to={`/trips/${tripId}/builder`} className="inline-flex items-center justify-center rounded-md border border-input bg-background h-9 px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors">
                 <LayoutList className="w-4 h-4 mr-2" /> Edit Sections
               </Link>

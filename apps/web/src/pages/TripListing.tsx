@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { apiClient } from '../lib/api-client';
-import { SearchBar } from '../components/SearchBar';
-import { Calendar, MapPin, Trash2, Map, ArrowRight } from 'lucide-react';
+
+import { Calendar, MapPin, Trash2, Map, ArrowRight, Search, Filter } from 'lucide-react';
 import { BlurFade } from '../components/ui/blur-fade';
 
 export default function TripListing() {
   const [trips, setTrips] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [sortBy, setSortBy] = useState('newest');
 
   useEffect(() => {
     fetchTrips();
@@ -98,9 +101,25 @@ export default function TripListing() {
     );
   };
 
-  const ongoingTrips = trips.filter(t => t.status === 'ongoing');
-  const upcomingTrips = trips.filter(t => !t.status || t.status === 'planned' || t.status === 'upcoming');
-  const completedTrips = trips.filter(t => t.status === 'completed');
+  let displayTrips = trips.filter(t => t.title.toLowerCase().includes(searchQuery.toLowerCase()));
+  if (statusFilter !== 'all') {
+    displayTrips = displayTrips.filter(t => {
+      const s = t.status || 'planned';
+      if (statusFilter === 'planned' && s === 'upcoming') return true;
+      return s === statusFilter;
+    });
+  }
+  displayTrips.sort((a, b) => {
+    if (sortBy === 'newest') return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+    if (sortBy === 'oldest') return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+    if (sortBy === 'name-asc') return a.title.localeCompare(b.title);
+    if (sortBy === 'name-desc') return b.title.localeCompare(a.title);
+    return 0;
+  });
+
+  const ongoingTrips = displayTrips.filter(t => t.status === 'ongoing');
+  const upcomingTrips = displayTrips.filter(t => !t.status || t.status === 'planned' || t.status === 'upcoming');
+  const completedTrips = displayTrips.filter(t => t.status === 'completed');
 
   return (
     <div className="bg-slate-50 h-full pb-20 md:pb-0">
@@ -115,7 +134,45 @@ export default function TripListing() {
           </Link>
         </div>
 
-        <SearchBar />
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <div className="relative w-full md:w-96">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <input 
+              type="text" 
+              placeholder="Search trips..." 
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+            />
+          </div>
+          <div className="flex items-center space-x-3 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
+            <div className="flex space-x-1 bg-slate-100 p-1 rounded-lg">
+              {['all', 'planned', 'ongoing', 'completed'].map(status => (
+                <button
+                  key={status}
+                  onClick={() => setStatusFilter(status)}
+                  className={`px-4 py-1.5 rounded-md text-sm font-medium capitalize whitespace-nowrap transition-all ${statusFilter === status ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                >
+                  {status}
+                </button>
+              ))}
+            </div>
+            <div className="h-8 w-px bg-slate-200 hidden md:block"></div>
+            <div className="relative shrink-0">
+              <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <select
+                value={sortBy}
+                onChange={e => setSortBy(e.target.value)}
+                className="pl-9 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none cursor-pointer"
+              >
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="name-asc">Name A-Z</option>
+                <option value="name-desc">Name Z-A</option>
+              </select>
+            </div>
+          </div>
+        </div>
 
         {error && (
           <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">

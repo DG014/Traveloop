@@ -45,7 +45,7 @@ export default function InvoiceView() {
 
   const downloadPdf = () => {
     // Navigate to API endpoint that returns PDF
-    window.open(`http://localhost:3000/api/trips/${tripId}/invoice/pdf`, '_blank');
+    window.open(`/api/trips/${tripId}/invoice/pdf`, '_blank');
   };
 
   if (loading) return <div className="min-h-screen bg-slate-50 flex items-center justify-center">Loading...</div>;

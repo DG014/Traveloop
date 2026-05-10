@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { apiClient } from '../lib/api-client';
 import { Users, MapPin, Activity, TrendingUp, ShieldAlert } from 'lucide-react';
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
+const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444'];
 
 type TabType = 'users' | 'cities' | 'activities' | 'analytics';
 
@@ -32,8 +34,20 @@ export default function AdminPanel() {
         const res = await apiClient('/admin/popular-activities');
         setActivities(res.data || []);
       } else if (tab === 'analytics') {
-        const res = await apiClient('/admin/analytics');
-        setAnalytics(res.data);
+        try {
+          const [statsRes, trendsRes] = await Promise.all([
+            apiClient('/admin/stats'),
+            apiClient('/admin/trends')
+          ]);
+          setAnalytics({
+            summary: statsRes.data,
+            newUsersLineData: trendsRes.data?.newUsersOverTime || [],
+            tripsCreatedBarData: trendsRes.data?.tripsPerMonth || [],
+            tripsByStatusData: trendsRes.data?.tripsByStatus || []
+          });
+        } catch (e: any) {
+          console.error('Failed to load analytics', e);
+        }
       }
     } catch (e: any) {
       alert('Failed to load data: ' + e.message);
@@ -133,7 +147,35 @@ export default function AdminPanel() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {/* Pie Chart */}
+                  <div className="bg-white p-6 rounded-xl border border-border shadow-sm">
+                    <h3 className="font-bold text-slate-900 mb-6">Trips by Status</h3>
+                    <div className="h-64">
+                      {analytics?.tripsByStatusData && (
+                        <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                            <Pie
+                              data={analytics.tripsByStatusData}
+                              cx="50%"
+                              cy="50%"
+                              innerRadius={60}
+                              outerRadius={80}
+                              paddingAngle={5}
+                              dataKey="count"
+                              nameKey="status"
+                            >
+                              {analytics.tripsByStatusData.map((_: any, index: number) => (
+                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                              ))}
+                            </Pie>
+                            <Tooltip />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      )}
+                    </div>
+                  </div>
+
                   {/* Line Chart */}
                   <div className="bg-white p-6 rounded-xl border border-border shadow-sm">
                     <h3 className="font-bold text-slate-900 mb-6">New Users Over Time</h3>
