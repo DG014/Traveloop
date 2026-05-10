@@ -55,20 +55,15 @@ export default function ProfileEdit() {
   if (loading) return <div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="animate-pulse text-muted-foreground">Loading profile...</div></div>;
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <header className="bg-white border-b border-border px-6 py-4">
-        <div className="max-w-2xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <User className="w-5 h-5 text-primary" />
-            <h1 className="text-xl font-bold text-foreground">Edit Profile</h1>
-          </div>
-          <Link to="/" className="text-sm font-medium text-primary hover:underline flex items-center">
-            <ArrowLeft className="w-4 h-4 mr-1" /> Dashboard
-          </Link>
+    <div className="bg-slate-50 pb-20 md:pb-0 h-full flex flex-col">
+      <main className="max-w-3xl mx-auto w-full px-6 py-10 flex-1">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight flex items-center">
+            <User className="w-8 h-8 mr-3 text-primary" /> Profile Settings
+          </h1>
+          <p className="text-slate-500 mt-2">Manage your personal information and profile photo.</p>
         </div>
-      </header>
 
-      <main className="max-w-2xl mx-auto px-6 py-8">
         {error && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">{error}</div>}
 
         {/* Photo section */}

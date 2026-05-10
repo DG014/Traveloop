@@ -96,7 +96,7 @@ export default function TripListing() {
   const completedTrips = trips.filter(t => t.status === 'completed');
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="bg-slate-50 h-full pb-20 md:pb-0">
       <div className="max-w-6xl mx-auto px-6 py-10 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>

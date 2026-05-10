@@ -43,29 +43,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Top Bar (Glassmorphism) */}
-      <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-white/20 px-6 py-4 flex items-center justify-between shadow-sm">
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-sm">
-            <span className="text-white font-bold">T</span>
-          </div>
-          <span className="text-xl font-bold text-foreground">Traveloop</span>
-        </div>
-        <div className="flex items-center space-x-4">
-          <span className="text-sm font-medium hidden sm:block text-slate-700">Hello, {user?.firstName}</span>
-          <Link to="/profile" className="block">
-            <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center overflow-hidden border-2 border-white shadow-sm hover:ring-2 hover:ring-primary transition-all">
-              {user?.profilePhoto ? (
-                <img src={user.profilePhoto} alt="Profile" className="w-full h-full object-cover" />
-              ) : (
-                <UserCircle className="w-6 h-6 text-slate-500" />
-              )}
-            </div>
-          </Link>
-        </div>
-      </header>
-
+    <div className="bg-slate-50 pb-20 md:pb-0">
       {/* Hero Section */}
       <div className="relative bg-gradient-to-br from-primary via-blue-600 to-indigo-700 text-white py-20 px-6 overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay opacity-20"></div>
