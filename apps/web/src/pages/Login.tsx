@@ -27,6 +27,7 @@ export default function Login() {
       setError(null);
       const res = await apiClient('/auth/login', {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
       login(res.data);

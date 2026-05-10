@@ -42,8 +42,9 @@ export function createApp() {
   app.use(cookieParser());
   app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
-  // Auth rate limiter — PRD §9 (disabled in test env to prevent 429 during test suite)
-  const authLimiter = process.env.NODE_ENV === 'test'
+  // Auth rate limiter — PRD §9 (disabled in test/dev env to prevent 429 during testing)
+  const isRateLimitDisabled = process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development';
+  const authLimiter = isRateLimitDisabled
     ? (_req: any, _res: any, next: any) => next()
     : rateLimit({
         windowMs: 15 * 60 * 1000,
