@@ -164,20 +164,21 @@ graph TD
 | Module | Backend Service | Controller | Routes | Frontend Page | Frontend Test | Backend Test |
 |--------|:-:|:-:|:-:|:-:|:-:|:-:|
 | Auth | ✅ | ✅ | ✅ | ✅ Login + Register | ✅ | ✅ |
-| User | ✅ | ✅ | ✅ | (via AuthContext) | — | — |
+| User | ✅ | ✅ | ✅ | ✅ ProfileEdit | ✅ | — |
 | Trip | ✅ | ✅ | ✅ | ✅ Dashboard + TripListing + CreateTrip | ✅ | ✅ biz logic |
 | Sections | ✅ | ✅ | ✅ | ✅ ItineraryBuilder | ✅ | — |
 | City/Activity | ✅ | ✅ | ✅ | (in CreateTrip) | — | — |
 | Budget/Invoice | ✅ | ✅ | ✅ | ✅ InvoiceView | ✅ | — |
 | Checklist | ✅ | ✅ | ✅ | ✅ ChecklistView | ✅ | — |
 | Notes | ✅ | ✅ | ✅ | ✅ NotesView | ✅ | — |
-| Community | ✅ | ✅ | ✅ | ❌ MISSING | ❌ | — |
+| Community | ✅ | ✅ | ✅ | ✅ CommunityFeed + PublicTripView | ✅ | — |
 | Admin | ✅ | ✅ | ✅ | ✅ AdminPanel | ✅ | — |
 
 ## Identified Gaps
 
-1. **Community frontend pages** — No CommunityFeed.tsx or PublicTripView.tsx (PRD Screen 7 + 8)
-2. **Profile page** — No dedicated profile edit page (PRD Screen 10)
-3. **No docker-compose.yml** — GPT was blocked; may now have created it
-4. **No root package.json** — No monorepo workspace orchestration
-5. **No `test` script in web/package.json** — Frontend tests exist but can't be run
+All gaps have been resolved:
+1. ~~**Community frontend pages** — No CommunityFeed.tsx or PublicTripView.tsx (PRD Screen 7 + 8)~~ -> Fixed: Pages created and tested.
+2. ~~**Profile page** — No dedicated profile edit page (PRD Screen 10)~~ -> Fixed: ProfileEdit.tsx created and tested.
+3. ~~**No docker-compose.yml** — GPT was blocked; may now have created it~~ -> Fixed: Added by Opus.
+4. ~~**No root package.json** — No monorepo workspace orchestration~~ -> Fixed: Added by Opus.
+5. ~~**No `test` script in web/package.json** — Frontend tests exist but can't be run~~ -> Fixed: Added by Opus and tests pass.
