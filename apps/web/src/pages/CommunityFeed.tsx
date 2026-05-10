@@ -53,19 +53,19 @@ export default function CommunityFeed() {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
-      <header className="bg-white border-b border-border px-6 py-4">
+      <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-border/50 px-6 py-4 shadow-sm">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <Globe className="w-4 h-4 text-white" />
+            <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20">
+              <Globe className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground">Community Trips</h1>
-              <p className="text-sm text-muted-foreground">Discover and copy itineraries shared by travelers</p>
+              <h1 className="text-2xl font-bold text-foreground tracking-tight">Community Trips</h1>
+              <p className="text-sm text-muted-foreground font-medium">Discover and copy itineraries shared by travelers</p>
             </div>
           </div>
-          <Link to="/" className="text-sm font-medium text-primary hover:underline">
-            ← Back to Dashboard
+          <Link to="/" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors bg-primary/5 hover:bg-primary/10 px-4 py-2 rounded-full flex items-center">
+            ← Dashboard
           </Link>
         </div>
       </header>
@@ -85,62 +85,69 @@ export default function CommunityFeed() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {posts.map(post => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {posts.map((post, index) => (
                 <Link
                   to={`/community/${post.trip.publicSlug}`}
                   key={post.id}
-                  className="group bg-white rounded-xl border border-border shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col"
+                  className="group bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col animate-fade-in-up"
+                  style={{ animationDelay: `${index * 100}ms` }}
                 >
                   {/* Cover */}
-                  <div className="h-40 bg-gradient-to-br from-primary/20 to-accent/30 relative">
-                    {post.trip.coverPhoto && (
+                  <div className="h-48 bg-gradient-to-br from-slate-200 to-slate-100 relative overflow-hidden">
+                    {post.trip.coverPhoto ? (
                       <img
                         src={post.trip.coverPhoto}
                         alt={post.trip.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    ) : (
+                      <img
+                        src={`https://source.unsplash.com/random/400x300/?travel,${post.trip.title.split(' ')[0]}`}
+                        alt={post.trip.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                    <div className="absolute bottom-3 left-3 right-3">
-                      <h3 className="text-white font-bold text-lg leading-tight truncate">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute bottom-4 left-4 right-4 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                      <h3 className="text-white font-bold text-xl leading-tight line-clamp-2 drop-shadow-md">
                         {post.trip.title}
                       </h3>
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div className="p-4 flex-1 flex flex-col">
+                  <div className="p-5 flex-1 flex flex-col">
                     {/* Author */}
-                    <div className="flex items-center space-x-2 mb-3">
-                      <div className="w-7 h-7 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold text-slate-600 overflow-hidden">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-xs font-bold text-primary overflow-hidden shadow-sm">
                         {post.user.profilePhoto ? (
                           <img src={post.user.profilePhoto} alt="" className="w-full h-full object-cover" />
                         ) : (
                           `${post.user.firstName[0]}${post.user.lastName[0]}`
                         )}
                       </div>
-                      <span className="text-sm text-slate-600">{post.user.firstName} {post.user.lastName}</span>
+                      <span className="text-sm font-semibold text-slate-700">{post.user.firstName} {post.user.lastName}</span>
                     </div>
 
                     {/* Dates */}
-                    <div className="flex items-center text-xs text-muted-foreground mb-3">
-                      <Calendar className="w-3 h-3 mr-1" />
+                    <div className="flex items-center text-xs text-slate-500 font-medium mb-3 bg-slate-50 w-fit px-2 py-1 rounded-md">
+                      <Calendar className="w-3.5 h-3.5 mr-1.5 text-primary/70" />
                       {new Date(post.trip.startDate).toLocaleDateString()} — {new Date(post.trip.endDate).toLocaleDateString()}
                     </div>
 
                     {post.caption && (
-                      <p className="text-sm text-slate-600 line-clamp-2 mb-3">{post.caption}</p>
+                      <p className="text-sm text-slate-600 line-clamp-2 mb-4 leading-relaxed">{post.caption}</p>
                     )}
 
                     {/* Stats */}
-                    <div className="mt-auto pt-3 border-t border-border flex items-center justify-between">
-                      <div className="flex items-center space-x-4 text-xs text-muted-foreground">
-                        <span className="flex items-center"><Eye className="w-3 h-3 mr-1" />{post.viewCount}</span>
-                        <span className="flex items-center"><Copy className="w-3 h-3 mr-1" />{post.copyCount}</span>
+                    <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+                      <div className="flex items-center space-x-4 text-xs font-medium text-slate-400">
+                        <span className="flex items-center hover:text-primary transition-colors"><Eye className="w-3.5 h-3.5 mr-1.5" />{post.viewCount}</span>
+                        <span className="flex items-center hover:text-primary transition-colors"><Copy className="w-3.5 h-3.5 mr-1.5" />{post.copyCount}</span>
                       </div>
-                      <span className="text-xs font-medium text-primary group-hover:underline flex items-center">
-                        View <ArrowRight className="w-3 h-3 ml-1" />
+                      <span className="text-xs font-bold text-primary group-hover:text-primary/80 flex items-center uppercase tracking-wider opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                        View <ArrowRight className="w-3.5 h-3.5 ml-1" />
                       </span>
                     </div>
                   </div>
