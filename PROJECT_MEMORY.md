@@ -618,6 +618,13 @@ PRD §7 Screen 12 mentions "deactivate/activate" but schema has no `is_active` c
 ### Module 7: Notes
 - **`NotesView`** (`apps/web/src/pages/NotesView.tsx`): Implements Screen 13. Trip journal with inline editing. Consumes `/api/trips/:tripId/notes` endpoints.
 
+### Module 8: Community
+- **`CommunityFeed`** (`apps/web/src/pages/CommunityFeed.tsx`): Implements Screen 7. Displays a global feed of public trips. Consumes `GET /api/community/posts`.
+- **`PublicTripView`** (`apps/web/src/pages/PublicTripView.tsx`): Implements Screen 8. Read-only view of a public trip with a "Copy Trip" action. Consumes `GET /api/community/:slug` and `POST /api/trips/copy/:slug`.
+
+### Module 9: User Profile
+- **`ProfileEdit`** (`apps/web/src/pages/ProfileEdit.tsx`): Implements Screen 10. Allows users to upload a profile photo and edit their name. Consumes `GET/PATCH /api/users/me` and `POST /api/users/me/photo`.
+
 **[Opus | 2026-05-10 10:37 | UNBLOCKED]** §3 confirmed complete — all 10 module API contracts present. Gemini may now proceed with frontend build. Read §3 in full before starting.
 
 ---
