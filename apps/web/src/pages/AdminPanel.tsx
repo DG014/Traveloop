@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { apiClient } from '../lib/api-client';
-import { Users, MapPin, Activity, TrendingUp, ShieldAlert, CheckCircle, XCircle } from 'lucide-react';
-import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Users, MapPin, Activity, TrendingUp, ShieldAlert } from 'lucide-react';
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 type TabType = 'users' | 'cities' | 'activities' | 'analytics';
 

@@ -27,8 +27,8 @@ export default function CreateTrip() {
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const { register, handleSubmit, formState: { errors, isSubmitting }, setValue } = useForm<TripForm>({
-    resolver: zodResolver(tripSchema),
+  const { register, handleSubmit, formState: { errors, isSubmitting }, setValue, getValues } = useForm<TripForm>({
+    resolver: zodResolver(tripSchema) as any,
   });
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function CreateTrip() {
     setSelectedCity(city);
     setCitySearch('');
     setCities([]);
-    if (!setValue('title')) {
+    if (!getValues('title')) {
       setValue('title', `Trip to ${city.name}`);
     }
     
@@ -148,7 +148,7 @@ export default function CreateTrip() {
                 </div>
               )}
 
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={handleSubmit(onSubmit as any)} className="space-y-6">
                 <div className="space-y-2">
                   <label htmlFor="title" className="text-sm font-medium">Trip Title</label>
                   <input id="title" {...register('title')} className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:outline-none" />

@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { apiClient } from '../lib/api-client';
 import { SearchBar } from '../components/SearchBar';
-import { Calendar, MoreVertical, MapPin, Trash2, Edit2, Map, ArrowRight } from 'lucide-react';
-import BlurFade from '../components/ui/blur-fade';
+import { Calendar, MapPin, Trash2, Map, ArrowRight } from 'lucide-react';
+import { BlurFade } from '../components/ui/blur-fade';
 
 export default function TripListing() {
   const [trips, setTrips] = useState<any[]>([]);

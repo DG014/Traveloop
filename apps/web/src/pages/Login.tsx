@@ -5,8 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useAuth } from '../lib/auth-context';
 import { apiClient } from '../lib/api-client';
-import AnimatedGridPattern from '../components/ui/animated-grid-pattern';
-import ShimmerButton from '../components/ui/shimmer-button';
+import { AnimatedGridPattern } from '../components/ui/animated-grid-pattern';
+import { ShimmerButton } from '../components/ui/shimmer-button';
 import { cn } from '../lib/utils';
 
 const loginSchema = z.object({

@@ -2,10 +2,10 @@ import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { apiClient } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
-import { User, Camera, ArrowLeft, Save, CheckCircle } from 'lucide-react';
+import { User, Camera, Save, CheckCircle } from 'lucide-react';
 
 export default function ProfileEdit() {
-  const { user, refreshUser } = useAuth();
+  const { refreshUser } = useAuth();
   const fileRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState({ firstName: '', lastName: '', email: '' });
   const [loading, setLoading] = useState(true);

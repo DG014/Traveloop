@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { apiClient } from '../lib/api-client';
-import BlurFade from '../components/ui/blur-fade';
+import { BlurFade } from '../components/ui/blur-fade';
 
 interface City {
   id: string;
@@ -43,7 +43,7 @@ export default function CitySearch() {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const LIMIT = 12;
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     clearTimeout(debounceRef.current);

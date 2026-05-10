@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { apiClient } from '../lib/api-client';
-import { Download, FileText, CheckCircle, ArrowLeft } from 'lucide-react';
+import { FileText, CheckCircle, ArrowLeft } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
 export default function InvoiceView() {

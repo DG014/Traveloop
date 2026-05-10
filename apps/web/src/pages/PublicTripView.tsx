@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { apiClient } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
-import { MapPin, Calendar, Clock, DollarSign, Copy, ArrowLeft, Eye, CheckCircle } from 'lucide-react';
-import BlurFade from '../components/ui/blur-fade';
-import ShimmerButton from '../components/ui/shimmer-button';
+import { MapPin, Calendar, DollarSign, Copy, ArrowLeft, Eye, CheckCircle } from 'lucide-react';
+import { BlurFade } from '../components/ui/blur-fade';
 export default function PublicTripView() {
   const { slug } = useParams<{ slug: string }>();
   const { user } = useAuth();

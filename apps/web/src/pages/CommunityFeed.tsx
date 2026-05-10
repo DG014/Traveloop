@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiClient } from '../lib/api-client';
-import { Globe, Eye, Copy, ArrowRight, MapPin, Calendar } from 'lucide-react';
-import BlurFade from '../components/ui/blur-fade';
+import { Globe, Eye, Copy, ArrowRight, Calendar } from 'lucide-react';
+import { BlurFade } from '../components/ui/blur-fade';
 
 interface CommunityPost {
   id: string;

@@ -180,7 +180,7 @@ export default function ItineraryView() {
 
                 {/* Activities List */}
                 <div className="sm:ml-22 space-y-4">
-                  {(section.activities || []).map((act: any, aIdx: number) => {
+                  {(section.activities || []).map((act: any) => {
                     const cost = act.actualCost || act.activity?.avgCost || 0;
                     return (
                       <div key={act.id} className="bg-white p-4 rounded-xl border border-border shadow-sm flex flex-col sm:flex-row gap-4 hover:border-slate-300 transition-colors">

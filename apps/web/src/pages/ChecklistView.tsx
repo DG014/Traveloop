@@ -85,7 +85,7 @@ export default function ChecklistView() {
   if (loading) return <div className="p-8 text-center">Loading...</div>;
 
   const totalItems = items.length;
-  const packedItems = items.filter(i => i.isPacked).length;
+  const packedItems = items.filter((i: any) => i.isPacked).length;
   const progressPercent = totalItems === 0 ? 0 : Math.round((packedItems / totalItems) * 100);
 
   // Group by category
@@ -159,7 +159,7 @@ export default function ChecklistView() {
           <div className="space-y-6">
             {Object.keys(groupedItems).sort().map(category => {
               const catItems = groupedItems[category];
-              const catPacked = catItems.filter(i => i.isPacked).length;
+              const catPacked = catItems.filter((i: any) => i.isPacked).length;
               return (
                 <div key={category} className="border border-slate-200 rounded-lg overflow-hidden">
                   <div className="bg-slate-50 px-4 py-3 flex justify-between items-center border-b border-slate-200">
@@ -167,7 +167,7 @@ export default function ChecklistView() {
                     <span className="text-xs font-medium text-slate-500 bg-slate-200 px-2 py-0.5 rounded-full">{catPacked}/{catItems.length}</span>
                   </div>
                   <ul className="divide-y divide-slate-100">
-                    {catItems.map(item => (
+                    {catItems.map((item: any) => (
                       <li key={item.id} className={`flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-colors ${item.isPacked ? 'opacity-60' : ''}`}>
                         <div 
                           className="flex items-center cursor-pointer flex-1"

@@ -10,7 +10,7 @@ const mockTrips = [
 ];
 
 vi.mock('../lib/api-client', () => ({
-  apiClient: vi.fn((endpoint: string, options?: any) => {
+  apiClient: vi.fn((_endpoint: string, options?: any) => {
     if (options?.method === 'DELETE') {
       return Promise.resolve({ data: { success: true } });
     }
@@ -54,7 +54,6 @@ describe('TripListing Component', () => {
       expect(screen.getByText('Japan Tour')).toBeInTheDocument();
     });
 
-    const deleteButtons = screen.getAllByRole('button');
     // The first button in SearchBar is Group, second is Filter, third is Sort.
     // The trash icons are within the trip cards.
     // In our component, we have a button for delete with a trash icon.

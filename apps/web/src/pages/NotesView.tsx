@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { apiClient } from '../lib/api-client';
-import { FileText, Plus, Trash2, Edit3, ArrowLeft, Calendar, MapPin } from 'lucide-react';
+import { FileText, Plus, Trash2, Edit3, ArrowLeft, Calendar } from 'lucide-react';
 
 export default function NotesView() {
   const { id: tripId } = useParams<{ id: string }>();
