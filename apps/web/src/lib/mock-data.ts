@@ -17,6 +17,7 @@ export const MOCK_TRIPS: Record<string, any> = {
     destinations: ['Bali', 'Lombok'],
     startDate: '2024-10-23',
     endDate: '2024-10-29',
+    gradient: 'linear-gradient(135deg, #8b5cf6, #ec4899)',
   }
 };
 
@@ -31,4 +32,43 @@ export const MOCK_ACTIVITIES = [
   { id: 'a8', day: 3, type: 'Adventure', title: 'Mount Batur Sunrise Trek', startTime: '02:00', duration: 300, cost: 55, location: 'Mount Batur', notes: 'Pickup from hotel at 2 AM. Bring jacket.' },
   { id: 'a9', day: 3, type: 'Transport', title: 'Fast Boat to Lombok', startTime: '14:00', duration: 120, cost: 35, location: 'Padang Bai', notes: 'Eka Jaya Fast Boat. Sit on the roof.' },
   { id: 'a10', day: 4, type: 'Adventure', title: 'Gili Trawangan Snorkeling', startTime: '10:00', duration: 240, cost: 25, location: 'Gili T', notes: 'Turtle point and underwater statues.' },
+];
+
+export const MOCK_USER = {
+  name: 'Alex Chen',
+  email: 'alex@example.com',
+  bio: 'Adventure seeker. Coffee enthusiast. 14 countries and counting.',
+  city: 'San Francisco, CA',
+  avatar: 'AC',
+  followers: 24,
+};
+
+export const MOCK_COLLABORATORS = [
+  { id: 'u1', name: 'Alex Chen', initials: 'AC', color: '#6366f1', role: 'Owner', isOnline: true },
+  { id: 'u2', name: 'Priya Kumar', initials: 'PK', color: '#f59e0b', role: 'Editor', isOnline: true },
+  { id: 'u3', name: 'James Lee', initials: 'JL', color: '#10b981', role: 'Editor', isOnline: false },
+  { id: 'u4', name: 'Marco Rossi', initials: 'MR', color: '#ef4444', role: 'Viewer', isOnline: false },
+];
+
+export const MOCK_JOURNAL = [
+  { id: 'j1', tripId: 't_001', title: 'First light in Canggu', date: 'Oct 23, 2024', location: 'Bali, Indonesia', mood: '🌅', excerpt: 'Landed to the smell of frangipani...', text: 'Landed to the smell of frangipani. The flight was long but stepping out into the warm, humid air immediately made it worth it. We grabbed a quick coffee before heading to our villa in Canggu. The sunset at Echo Beach was spectacular.', gradient: 'linear-gradient(135deg, #f59e0b, #ef4444)' },
+  { id: 'j2', tripId: 't_001', title: 'Monkeys and Temples', date: 'Oct 24, 2024', location: 'Ubud, Bali', mood: '🌿', excerpt: 'The Ubud Monkey Forest was wild...', text: 'The Ubud Monkey Forest was wild. I almost lost my sunglasses to a particularly cheeky macaque. Later, we visited Tirta Empul and participated in the water blessing ritual, which felt incredibly grounding.', gradient: 'linear-gradient(135deg, #10b981, #059669)' },
+  { id: 'j3', tripId: 't_001', title: 'Sunrise Trek', date: 'Oct 25, 2024', location: 'Mount Batur', mood: '🏔️', excerpt: 'Waking up at 2 AM was rough...', text: 'Waking up at 2 AM was rough, but the hike up Mount Batur was an adventure. Reaching the summit just as the sun began to peek over the horizon, painting the sky in vibrant shades of pink and orange, was a core memory.', gradient: 'linear-gradient(135deg, #8b5cf6, #3b82f6)' },
+];
+
+export const MOCK_DESTINATIONS = [
+  { id: 'd1', name: 'Kyoto, Japan', img: 'linear-gradient(135deg, #ec4899, #f43f5e)', tags: ['Culture', 'Food'] },
+  { id: 'd2', name: 'Santorini, Greece', img: 'linear-gradient(135deg, #3b82f6, #06b6d4)', tags: ['Relaxation', 'Scenery'] },
+  { id: 'd3', name: 'Patagonia, Chile', img: 'linear-gradient(135deg, #0ea5e9, #3b82f6)', tags: ['Adventure', 'Nature'] },
+  { id: 'd4', name: 'Banff, Canada', img: 'linear-gradient(135deg, #10b981, #3b82f6)', tags: ['Mountains', 'Hiking'] },
+  { id: 'd5', name: 'Rome, Italy', img: 'linear-gradient(135deg, #f59e0b, #ef4444)', tags: ['History', 'Food'] },
+  { id: 'd6', name: 'Queenstown, NZ', img: 'linear-gradient(135deg, #8b5cf6, #d946ef)', tags: ['Extreme', 'Nature'] },
+];
+
+export const MOCK_ADMIN_USERS = [
+  { id: 'au1', name: 'Alex Chen', email: 'alex@example.com', plan: 'Pro', lastActive: '2 mins ago', trips: 8 },
+  { id: 'au2', name: 'Priya Kumar', email: 'priya@example.com', plan: 'Free', lastActive: '1 hr ago', trips: 2 },
+  { id: 'au3', name: 'James Lee', email: 'james@example.com', plan: 'Pro', lastActive: '5 hrs ago', trips: 5 },
+  { id: 'au4', name: 'Sarah Smith', email: 'sarah@example.com', plan: 'Business', lastActive: 'Yesterday', trips: 14 },
+  { id: 'au5', name: 'Marco Rossi', email: 'marco@example.com', plan: 'Free', lastActive: '2 days ago', trips: 1 },
 ];

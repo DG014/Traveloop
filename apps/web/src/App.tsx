@@ -15,9 +15,11 @@ import ChecklistView from './pages/ChecklistView';
 import NotesView from './pages/NotesView';
 import CommunityFeed from './pages/CommunityFeed';
 import PublicTripView from './pages/PublicTripView';
-import ProfileEdit from './pages/ProfileEdit';
+import ProfilePage from './pages/ProfilePage';
 import CitySearch from './pages/CitySearch';
 import ItineraryTimeline from './pages/ItineraryTimeline';
+import JournalPage from './pages/JournalPage';
+import CollaboratePage from './pages/CollaboratePage';
 
 function App() {
   return (
@@ -41,7 +43,9 @@ function App() {
           <Route path="/trips/:id/invoice" element={<InvoiceView />} />
           <Route path="/trips/:id/checklist" element={<ChecklistView />} />
           <Route path="/trips/:id/notes" element={<NotesView />} />
-          <Route path="/profile" element={<ProfileEdit />} />
+          <Route path="/trips/:id/collaborate" element={<CollaboratePage />} />
+          <Route path="/journal" element={<JournalPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/admin" element={<AdminPanel />} />
           <Route path="/search" element={<CitySearch />} />
         </Route>
