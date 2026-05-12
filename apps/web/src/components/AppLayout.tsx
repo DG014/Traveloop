@@ -15,7 +15,7 @@ export function AppLayout() {
   const location = useLocation();
 
   const navigation = [
-    { name: 'Dashboard', href: '/', icon: LayoutDashboard },
+    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'My Trips', href: '/trips', icon: MapPin },
     { name: 'Explore', href: '/search', icon: Search },
     { name: 'Community', href: '/community', icon: Globe },

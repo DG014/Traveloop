@@ -20,6 +20,8 @@ import CitySearch from './pages/CitySearch';
 import ItineraryTimeline from './pages/ItineraryTimeline';
 import JournalPage from './pages/JournalPage';
 import CollaboratePage from './pages/CollaboratePage';
+import LandingPage from './pages/LandingPage';
+import ProfileEdit from './pages/ProfileEdit';
 
 function App() {
   return (
@@ -29,12 +31,13 @@ function App() {
         <Route path="/register" element={<Register />} />
         {/* Community routes — sidebar shown if logged in, standalone if not */}
         <Route element={<ConditionalLayout />}>
+          <Route path="/" element={<LandingPage />} />
           <Route path="/community" element={<CommunityFeed />} />
           <Route path="/community/:slug" element={<PublicTripView />} />
         </Route>
         {/* Protected routes — requires auth, always shows sidebar */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/trips" element={<TripListing />} />
           <Route path="/trips/new" element={<CreateTrip />} />
           <Route path="/trips/:id" element={<ItineraryView />} />
@@ -46,6 +49,7 @@ function App() {
           <Route path="/trips/:id/collaborate" element={<CollaboratePage />} />
           <Route path="/journal" element={<JournalPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/edit" element={<ProfileEdit />} />
           <Route path="/admin" element={<AdminPanel />} />
           <Route path="/search" element={<CitySearch />} />
         </Route>

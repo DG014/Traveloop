@@ -119,7 +119,7 @@ export default function ProfileEdit() {
             </div>
           </div>
           <div className="mt-8 flex items-center justify-end space-x-3">
-            <Link to="/" className="px-4 py-2 text-sm text-slate-600 hover:text-slate-900">Cancel</Link>
+            <Link to="/profile" className="px-4 py-2 text-sm text-slate-600 hover:text-slate-900">Cancel</Link>
             <button onClick={handleSave} disabled={saving || saved}
               className={`inline-flex items-center px-5 py-2 rounded-lg text-sm font-medium transition-all ${saved ? 'bg-green-100 text-green-700' : 'bg-primary text-white hover:bg-primary/90 shadow-sm'}`}>
               {saved ? <><CheckCircle className="w-4 h-4 mr-2" />Saved!</> : saving ? 'Saving...' : <><Save className="w-4 h-4 mr-2" />Save Changes</>}

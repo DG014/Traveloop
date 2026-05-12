@@ -209,6 +209,24 @@ export default function ItineraryView() {
               </Link>
             </div>
           </div>
+          {/* Auxiliary Links Bar */}
+          <div className="flex flex-wrap items-center gap-4 mt-6 pt-4 border-t border-slate-100">
+            <Link to={`/trips/${tripId}/checklist`} className="text-sm font-medium text-slate-600 hover:text-primary transition-colors flex items-center">
+              <CheckCircle2 className="w-4 h-4 mr-1.5" /> Packing List
+            </Link>
+            <Link to={`/trips/${tripId}/invoice`} className="text-sm font-medium text-slate-600 hover:text-primary transition-colors flex items-center">
+              <DollarSign className="w-4 h-4 mr-1.5" /> Budget & Invoice
+            </Link>
+            <Link to={`/trips/${tripId}/timeline`} className="text-sm font-medium text-slate-600 hover:text-primary transition-colors flex items-center">
+              <Clock className="w-4 h-4 mr-1.5" /> Timeline
+            </Link>
+            <Link to={`/trips/${tripId}/notes`} className="text-sm font-medium text-slate-600 hover:text-primary transition-colors flex items-center">
+              <LayoutList className="w-4 h-4 mr-1.5" /> Notes
+            </Link>
+            <Link to={`/trips/${tripId}/collaborate`} className="text-sm font-medium text-slate-600 hover:text-primary transition-colors flex items-center">
+              <Globe className="w-4 h-4 mr-1.5" /> Collaborate
+            </Link>
+          </div>
         </div>
       </div>
 

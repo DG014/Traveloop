@@ -40,7 +40,7 @@ export default function Register() {
         body: JSON.stringify(data),
       });
       login(res.data);
-      navigate('/');
+      navigate('/dashboard');
     } catch (err: any) {
       setError(err.message || 'Registration failed. Please try again.');
     }

@@ -34,7 +34,7 @@ export default function Login() {
         body: JSON.stringify(data),
       });
       login(res.data);
-      navigate('/');
+      navigate('/dashboard');
     } catch (err: any) {
       setError(err.message || 'Incorrect email or password');
     }
